@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  web:
+    image: nginx:latest
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./app:/var/www/app
+    ports:
+      - "8080:80"
+    links:
+      - php
+
+  php:
+    image: phalconphp/php-fpm:latest
+    volumes:
+      - ./app:/var/www/app
+    links:
+      - db
+    environment:
+      PHALCON_HOST: db
+      PHALCON_DB: mydb
+      PHALCON_USER: user
+      PHALCON_PASS: secret
+
+  db:
+    image: mysql:5.7
+    volumes:
+      - mysql_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root_password
+      MYSQL_DATABASE: mydb
+      MYSQL_USER: user
+      MYSQL_PASSWORD: secret
+
+volumes:
+  mysql_data:
