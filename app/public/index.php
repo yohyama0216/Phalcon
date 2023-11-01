@@ -30,12 +30,20 @@ $router->add(
     ]
 );
 $router->add(
+    "/user/create",
+    [
+        "controller" => "user",
+        "action"     => "create",
+    ]
+);
+$router->add(
     "/",
     [
         "controller" => "index",
         "action"     => "index",
     ]
 );
+
 
 
 $di = new FactoryDefault();
